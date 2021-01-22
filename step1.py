@@ -2,7 +2,8 @@ import operator
 import os
 import cv2 as cv
 import numpy as np
-from keras.models import load_model
+# import tensorflow as tf
+# from tensorflow.keras.models import load_model
 import matplotlib.pyplot as plt
 
 
@@ -17,7 +18,7 @@ def predict(image):
     image = cv.resize(image, (28, 28)).astype('float32').reshape(1, 28, 28, 1)
     image /= 255
     prediction = model.predict(image.reshape(1, 28, 28, 1), batch_size=1)
-    print(prediction.argmax())
+    # print(prediction.argmax())
     # print(prediction)
     return prediction.argmax()
 
@@ -46,14 +47,15 @@ def imageGrids(temp_Grid):
 def predictDigits(Grid):
     tmp_Sudoku = [[0] * 9 for _ in range(9)]
     finalGrid = imageGrids(Grid)
+
     for i in range(9):
         for j in range(9):
-            gray = cv.threshold(finalGrid[0][4], 128, 255, cv.THRESH_BINARY)[1]
+            gray = cv.threshold(finalGrid[i][j], 128, 255, cv.THRESH_BINARY)[1]
             Contours = cv.findContours(gray, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
             Contours = Contours[0] if len(Contours) == 2 else Contours[1]
             for c in Contours:
                 x, y, w, h = cv.boundingRect(c)
-                if w < 15 and h < 15:
+                if w < 15 or h < 15:
                     tmp_Sudoku[i][j] = 0
                 if x < 3 or y < 3 or h < 3 or w < 3:
                     # Note the number is always placed in the center
@@ -66,6 +68,7 @@ def predictDigits(Grid):
                 # increasing the size of the number allows for better interpretation,
                 # try adjusting the number and you will see the difference
                 # ROI = scale_and_centre(ROI, 120)
+                # print(type(gray))
                 print(w, h)
                 tmp_Sudoku[i][j] = predict(ROI)
                 cv.imshow("1.png", ROI)
@@ -74,6 +77,9 @@ def predictDigits(Grid):
 
 
 if __name__ == '__main__':
+    # physical_devices = tf.config.list_physical_devices('GPU')
+    # tf.config.experimental.set_memory_growth(physical_devices[0], True)
+
     img = cv.imread("./resources/fig2.PNG", cv.IMREAD_GRAYSCALE)
     proc = cv.GaussianBlur(img.copy(), (9, 9), 0)
     proc = cv.adaptiveThreshold(proc, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2)
@@ -107,7 +113,7 @@ if __name__ == '__main__':
 
     grid = cv.GaussianBlur(croppedImage, (9, 9), 0)
     # Adaptive thresholding the cropped grid and inverting it
-    grid = cv.bitwise_not(cv.adaptiveThreshold(grid, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2))
+    grid = cv.bitwise_not(cv.adaptiveThreshold(grid, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 5, 2))
 
     edge_h = np.shape(grid)[0]
     edge_w = np.shape(grid)[1]
@@ -122,7 +128,7 @@ if __name__ == '__main__':
 
     tmp_sudoku = predictDigits(tempGrid)
 
-    # for ele in tmp_sudoku:
-    #     print(ele)
-    # cv.imshow("Out.png", grid)
-    # cv.waitKey(0)
+    for ele in tmp_sudoku:
+        print(ele)
+    cv.imshow("Out.png", grid)
+    cv.waitKey(0)
