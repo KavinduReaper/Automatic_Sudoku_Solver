@@ -10,11 +10,6 @@ import argparse
 if __name__ == '__main__':
     physical_devices = tf.config.list_physical_devices('GPU')
     tf.config.experimental.set_memory_growth(physical_devices[0], True)
-    # construct the argument parser and parse the arguments
-    # ap = argparse.ArgumentParser()
-    # ap.add_argument("-m", "--model", required=True,
-    #                 help="path to output model after training")
-    # args = vars(ap.parse_args())
 
     # initialize the initial learning rate, number of epochs to train
     # for, and batch size

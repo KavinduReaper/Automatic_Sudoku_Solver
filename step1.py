@@ -14,7 +14,7 @@ def distance_between(p1, p2):
 
 
 def predict(image):
-    model = load_model('model.h5')
+    model = load_model('Model/model.h5')
     image = cv.resize(image, (28, 28)).astype('float32').reshape(1, 28, 28, 1)
     image /= 255
     prediction = model.predict(image.reshape(1, 28, 28, 1), batch_size=1)
