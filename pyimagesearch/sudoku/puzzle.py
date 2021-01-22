@@ -25,7 +25,7 @@ def find_puzzle(image, debug=False):
     # find contours in the threshold image and sort them by size in
     # descending order
     contours = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
-                            cv2.CHAIN_APPROX_SIMPLE)
+                                cv2.CHAIN_APPROX_SIMPLE)
     contours = imutils.grab_contours(contours)
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
 

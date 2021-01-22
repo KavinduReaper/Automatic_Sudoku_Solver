@@ -1,6 +1,3 @@
-# USAGE
-# python train_digit_classifier.py --model output/digit_classifier.h5
-
 # import the necessary packages
 import tensorflow as tf
 from pyimagesearch.models import SudokuNet
@@ -68,4 +65,4 @@ if __name__ == '__main__':
 
     # serialize the model to disk
     print("[INFO] serializing digit model...")
-    model.save("train_digit_classifier.h5")
+    model.save("Model/train_digit_classifier.h5")

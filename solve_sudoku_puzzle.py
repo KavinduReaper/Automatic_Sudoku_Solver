@@ -1,35 +1,22 @@
-# USAGE
-# python solve_sudoku_puzzle.py --model output/digit_classifier.h5 --image sudoku_puzzle.jpg
-
 # import the necessary packages
+import cv2
+import imutils
+import numpy as np
 import tensorflow as tf
+from sudoku import Sudoku
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.image import img_to_array
 from pyimagesearch.sudoku import extract_digit
 from pyimagesearch.sudoku import find_puzzle
-from tensorflow.keras.preprocessing.image import img_to_array
-from tensorflow.keras.models import load_model
-from sudoku import Sudoku
-import numpy as np
-import argparse
-import imutils
-import cv2
+
 
 if __name__ == '__main__':
     physical_devices = tf.config.list_physical_devices('GPU')
     tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
-    # construct the argument parser and parse the arguments
-    # ap = argparse.ArgumentParser()
-    # ap.add_argument("-m", "--model", required=True,
-    #                 help="path to trained digit classifier")
-    # ap.add_argument("-i", "--image", required=True,
-    #                 help="path to input sudoku puzzle image")
-    # ap.add_argument("-d", "--debug", type=int, default=-1,
-    #                 help="whether or not we are visualizing each step of the pipeline")
-    # args = vars(ap.parse_args())
-
     # load the digit classifier from disk
     print("[INFO] loading digit classifier...")
-    model = load_model("train_digit_classifier.h5")
+    model = load_model("Model/train_digit_classifier.h5")
 
     # load the input image from disk and resize it
     print("[INFO] processing image...")

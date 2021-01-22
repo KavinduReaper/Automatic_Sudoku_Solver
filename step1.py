@@ -1,10 +1,10 @@
 import operator
 import os
+
 import cv2 as cv
 import numpy as np
-# import tensorflow as tf
-# from tensorflow.keras.models import load_model
-import matplotlib.pyplot as plt
+import tensorflow as tf
+from tensorflow.keras.models import load_model
 
 
 def distance_between(p1, p2):
@@ -77,8 +77,8 @@ def predictDigits(Grid):
 
 
 if __name__ == '__main__':
-    # physical_devices = tf.config.list_physical_devices('GPU')
-    # tf.config.experimental.set_memory_growth(physical_devices[0], True)
+    physical_devices = tf.config.list_physical_devices('GPU')
+    tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
     img = cv.imread("./resources/fig2.PNG", cv.IMREAD_GRAYSCALE)
     proc = cv.GaussianBlur(img.copy(), (9, 9), 0)
