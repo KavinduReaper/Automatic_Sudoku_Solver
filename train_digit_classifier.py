@@ -1,11 +1,12 @@
 # import the necessary packages
 import tensorflow as tf
-from pyimagesearch.models import SudokuNet
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.datasets import mnist
-from sklearn.preprocessing import LabelBinarizer
 from sklearn.metrics import classification_report
-import argparse
+from sklearn.preprocessing import LabelBinarizer
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.optimizers import Adam
+import cv2
+
+from pyimagesearch.models import SudokuNet
 
 if __name__ == '__main__':
     physical_devices = tf.config.list_physical_devices('GPU')
@@ -20,10 +21,14 @@ if __name__ == '__main__':
     # grab the MNIST dataset
     print("[INFO] accessing MNIST...")
     ((trainData, trainLabels), (testData, testLabels)) = mnist.load_data()
+    print(trainData[0].shape, trainLabels.shape)
 
     # add a channel (i.e., grayscale) dimension to the digits
     trainData = trainData.reshape((trainData.shape[0], 28, 28, 1))
     testData = testData.reshape((testData.shape[0], 28, 28, 1))
+
+    cv2.imshow("a.png", trainData[0])
+    cv2.waitKey(0)
 
     # scale data to the range of [0, 1]
     trainData = trainData.astype("float32") / 255.0
