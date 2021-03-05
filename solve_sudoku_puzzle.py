@@ -25,12 +25,12 @@ if __name__ == '__main__':
 
     # load the Input image from disk and resize it
     print("[INFO] processing image...")
-    image = cv2.imread("resources/fig4.PNG")
+    image = cv2.imread("resources/fig2.PNG")
     image = imutils.resize(image, width=600)
 
     # find the puzzle in the image and then
     # if debug = true, it shows the image
-    (puzzleImage, warped) = find_puzzle(image, debug=False)
+    (puzzleImage, warped) = find_puzzle(image, debug=True)
 
     # initialize our 9x9 sudoku board
     board = np.zeros((9, 9), dtype="int")
@@ -74,8 +74,8 @@ if __name__ == '__main__':
                 roi = cv2.resize(digit, (28, 28))
                 roi = roi.astype("float") / 255.0
                 roi = img_to_array(roi)
-                roi = np.expand_dims(roi, axis=0)
 
+                roi = np.expand_dims(roi, axis=0)
                 # classify the digit and update the sudoku board with the
                 # prediction
                 pred = model.predict(roi).argmax(axis=1)[0]

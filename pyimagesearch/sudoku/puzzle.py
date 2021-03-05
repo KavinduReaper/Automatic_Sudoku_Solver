@@ -12,8 +12,7 @@ def find_puzzle(image, debug=False):
     blurred = cv2.GaussianBlur(gray, (7, 7), 3)
 
     # apply adaptive thresholding and then invert the threshold map
-    thresh = cv2.adaptiveThreshold(blurred, 255,
-                                   cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
+    thresh = cv2.adaptiveThreshold(blurred, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
     thresh = cv2.bitwise_not(thresh)
 
     # check to see if we are visualizing each step of the image
@@ -24,8 +23,7 @@ def find_puzzle(image, debug=False):
 
     # find contours in the threshold image and sort them by size in
     # descending order
-    contours = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
-                                cv2.CHAIN_APPROX_SIMPLE)
+    contours = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     contours = imutils.grab_contours(contours)
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
 
